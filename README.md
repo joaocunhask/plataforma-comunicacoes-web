@@ -14,8 +14,35 @@ Reescrita da PlataformaComunicacoes (.NET/Blazor/SQL Server na Azure) em
 
 ## Prova de conceito (critérios de saída)
 1. **ETL** SQL Server → Postgres com checksums por tabela (`scripts/etl/`) — por fazer
+   (precisa de uma ligação só de leitura a uma **cópia** da BD de produção)
 2. **Motor de cálculo** em `src/lib/calculo/`, a reproduzir ao cêntimo o motor C# — ✅ feito
-3. **Login** com os hashes ASP.NET Identity e o 2FA migrados, sem reset de passwords — por fazer
+3. **Login** com os hashes ASP.NET Identity e o 2FA migrados, sem reset de passwords —
+   ✅ verificação feita (`src/lib/identity/`); falta ligá-la à sessão (Better Auth)
+
+## Compatibilidade com o Identity (`src/lib/identity/`)
+
+Para os utilizadores entrarem depois do corte **com a password e o autenticador de sempre**:
+
+| Módulo | O quê | Origem .NET |
+|---|---|---|
+| `password.ts` | verifica `AspNetUsers.PasswordHash` (V2 e V3, qualquer PRF/iterações); diz se precisa de rehash | `PasswordHasher.VerifyHashedPassword` |
+| `totp.ts` | valida o código do autenticador (`AspNetUserTokens`/`AuthenticatorKey`), janela ±2 passos; gera chaves e o URI do QR | `AuthenticatorTokenProvider`, `Base32`, `Rfc6238AuthenticationService` |
+| `bloqueio.ts` | 5 falhas → 15 min bloqueado (`LockoutEnd`, `AccessFailedCount`) | `UserManager` + opções da API |
+
+Validado contra o **próprio pacote** `Microsoft.Extensions.Identity.Core` 10.0.8 (o de
+produção) em `tests/oraculo/identity-net.json`, incluindo as arestas: base64 estrito,
+hashes malformados, surrogates soltos, chave só com espaços, códigos com espaços/zeros.
+
+### Riscos da migração encontrados
+- **Tokens OAuth do Pipedrive** (`org_pipedrive_oauth_tokens`) estão cifrados com o Data
+  Protection do ASP.NET (purpose `PipedriveOAuth.Tokens.v1`, key ring em ficheiros no VPS,
+  `DataProtection:KeysPath`). Fora do .NET não se decifram: ou uma ferramenta .NET de uso
+  único os decifra no VPS e volta a cifrar para o sistema novo, ou cada utilizador volta a
+  ligar a app do Pipedrive depois do corte.
+- **Links de convite e de reset de password** (Data Protection, 24 h) deixam de valer no
+  corte: fazê-lo sem convites pendentes, ou reenviá-los.
+- As chaves do autenticador estão em claro (`ProtectPersonalData` desligado), por isso
+  migram tal e qual.
 
 ## Motor de cálculo (`src/lib/calculo/`)
 
@@ -46,7 +73,9 @@ primeiro da lista. Quem consulta a BD deve ordenar (por id).
 `tests/oraculo/casos-net.json` tem ~11 500 casos calculados pelo **próprio código C#**
 (aritmética do decimal, upfront, prémio, patamares, acertos, observações, texto). A
 ferramenta `ferramentas/oraculo-net` compila os ficheiros originais do repo .NET, sem os
-copiar, e grava os resultados. O teste `tests/oraculo` exige igualdade do texto em todos.
+copiar, e grava os resultados (corre com ICU e cultura invariante, como a produção). O
+teste `tests/oraculo` exige igualdade do texto em todos. O mesmo gerador produz
+`identity-net.json` para a compatibilidade com o Identity.
 
 ```bash
 npm run oraculo:gerar   # só quando o motor C# mudar; precisa do .NET 10 e do repo .NET ao lado

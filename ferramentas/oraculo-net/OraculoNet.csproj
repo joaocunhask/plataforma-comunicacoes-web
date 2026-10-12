@@ -15,9 +15,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- Com ICU, como a imagem de produção (mcr.microsoft.com/dotnet/aspnet); a cultura
+         fica invariante em Program.cs para os resultados não dependerem deste PC. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
     <PlataformaNet Condition="'$(PlataformaNet)' == ''">$(MSBuildThisFileDirectory)..\..\..\PlataformaComunicacoes\</PlataformaNet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- A mesma versão do Identity que a API .NET usa em produção (Infrastructure.csproj). -->
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.8" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="$(PlataformaNet)src\PlataformaComunicacoes.Infrastructure\Services\Vodafone\UpfrontCalculator.cs" Link="MotorNet\UpfrontCalculator.cs" />

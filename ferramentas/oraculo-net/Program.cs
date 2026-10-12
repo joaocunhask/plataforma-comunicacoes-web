@@ -1,13 +1,14 @@
-// Oráculo do motor de cálculo.
+// Oráculo do motor de cálculo e da compatibilidade com o Identity.
 //
 // Gera casos (aleatórios com semente fixa + arestas escolhidas à mão) e grava, para cada
 // um, o resultado que o CÓDIGO C# DE PRODUÇÃO dá: as classes do motor são compiladas a
 // partir do repo PlataformaComunicacoes (ver OraculoNet.csproj), não copiadas. Onde o C#
 // tem a conta dentro de um serviço com BD (rácio dos acertos, líquido com patamar,
 // int.TryParse, Trim), reproduz-se aqui a mesma expressão C#, que é o que se quer validar:
-// a semântica do decimal, do arredondamento e do texto do .NET.
+// a semântica do decimal, do arredondamento e do texto do .NET. O Identity (passwords e
+// 2FA) vem do próprio pacote NuGet, na versão de produção (ver Identity.cs).
 //
-//   npm run oraculo:gerar     (= dotnet run --project ferramentas/oraculo-net -- tests/oraculo/casos-net.json)
+//   npm run oraculo:gerar     (= dotnet run --project ferramentas/oraculo-net -- tests/oraculo)
 //
 // Correr de novo só quando o motor C# mudar; o ficheiro gerado vai para o git e os
 // testes TypeScript (tests/oraculo) comparam-se com ele sem precisar de .NET.
@@ -20,7 +21,8 @@ using PlataformaComunicacoes.Infrastructure.Services.Vodafone;
 using PlataformaComunicacoes.Shared.Patamares;
 
 const int Semente = 20261012;
-var destino = args.Length > 0 ? args[0] : "tests/oraculo/casos-net.json";
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+var pasta = args.Length > 0 ? args[0] : "tests/oraculo";
 var r = new Random(Semente);
 var seccoes = new List<(string Nome, List<object?> Casos)>();
 
@@ -468,6 +470,8 @@ object LinhasJson(IEnumerable<LinhaBrutoPeriodo> linhas) => linhas.Select(l => n
         "", " ", "  a  ", "\u00A0b\u00A0", "\uFEFFc\uFEFF", "\u0085d\u0085", "\u2028e\u2029", "\u3000f\u3000",
         "\u200Bg\u200B", "\t\n\v\f\rh\r\n", "\u180Ei\u180E", "\u2000\u200Aj", "\u202Fk\u205F", "l", " m n ",
         "\u0000o\u0000", "\u1680p", "\u00A0", "\uFEFF", "\u0085",
+        // Maiúsculas: o .NET mapeia carácter a carácter e deixa o i sem ponto como está.
+        "\u0131", "\u01C5", "\uFB00", "\u0149", "\u00DF", "\u017F", "\u01F0", "\u0390", "i", "\u01C8", "\uFB06",
     ];
     foreach (var s in entradas)
         casos.Add(new { texto = s, trim = s.Trim(), branco = string.IsNullOrWhiteSpace(s), maiusculas = s.ToUpperInvariant() });
@@ -549,19 +553,24 @@ object LinhasJson(IEnumerable<LinhaBrutoPeriodo> linhas) => linhas.Select(l => n
 
 // ─── Escrita ──────────────────────────────────────────────────────────────────
 
-var opcoes = new JsonSerializerOptions { WriteIndented = false };
-var sb = new StringBuilder();
-sb.Append("{\n\"semente\": ").Append(Semente).Append(",\n\"seccoes\": {\n");
-for (var s = 0; s < seccoes.Count; s++)
+void Gravar(string caminho, List<(string Nome, List<object?> Casos)> lista)
 {
-    var (nome, casos) = seccoes[s];
-    sb.Append(JsonSerializer.Serialize(nome)).Append(": [\n");
-    for (var i = 0; i < casos.Count; i++)
-        sb.Append(JsonSerializer.Serialize(casos[i], opcoes)).Append(i < casos.Count - 1 ? ",\n" : "\n");
-    sb.Append(s < seccoes.Count - 1 ? "],\n" : "]\n");
+    var opcoes = new JsonSerializerOptions { WriteIndented = false };
+    var sb = new StringBuilder();
+    sb.Append("{\n\"semente\": ").Append(Semente).Append(",\n\"seccoes\": {\n");
+    for (var s = 0; s < lista.Count; s++)
+    {
+        var (nome, casos) = lista[s];
+        sb.Append(JsonSerializer.Serialize(nome)).Append(": [\n");
+        for (var i = 0; i < casos.Count; i++)
+            sb.Append(JsonSerializer.Serialize(casos[i], opcoes)).Append(i < casos.Count - 1 ? ",\n" : "\n");
+        sb.Append(s < lista.Count - 1 ? "],\n" : "]\n");
+    }
+    sb.Append("}\n}\n");
+    File.WriteAllText(caminho, sb.ToString(), new UTF8Encoding(false));
+    Console.WriteLine($"{caminho}: {string.Join(", ", lista.Select(x => $"{x.Nome}={x.Casos.Count}"))}");
 }
-sb.Append("}\n}\n");
 
-Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(destino))!);
-File.WriteAllText(destino, sb.ToString(), new UTF8Encoding(false));
-Console.WriteLine($"{destino}: {string.Join(", ", seccoes.Select(x => $"{x.Nome}={x.Casos.Count}"))}");
+Directory.CreateDirectory(pasta);
+Gravar(Path.Combine(pasta, "casos-net.json"), seccoes);
+Gravar(Path.Combine(pasta, "identity-net.json"), OraculoIdentity.Gerar(new Random(Semente)));

@@ -11198,7 +11198,18 @@
 {"texto":"\u1680p","trim":"p","branco":false,"maiusculas":"\u1680P"},
 {"texto":"\u00A0","trim":"","branco":true,"maiusculas":"\u00A0"},
 {"texto":"\uFEFF","trim":"\uFEFF","branco":false,"maiusculas":"\uFEFF"},
-{"texto":"\u0085","trim":"","branco":true,"maiusculas":"\u0085"}
+{"texto":"\u0085","trim":"","branco":true,"maiusculas":"\u0085"},
+{"texto":"\u0131","trim":"\u0131","branco":false,"maiusculas":"\u0131"},
+{"texto":"\u01C5","trim":"\u01C5","branco":false,"maiusculas":"\u01C4"},
+{"texto":"\uFB00","trim":"\uFB00","branco":false,"maiusculas":"\uFB00"},
+{"texto":"\u0149","trim":"\u0149","branco":false,"maiusculas":"\u0149"},
+{"texto":"\u00DF","trim":"\u00DF","branco":false,"maiusculas":"\u00DF"},
+{"texto":"\u017F","trim":"\u017F","branco":false,"maiusculas":"S"},
+{"texto":"\u01F0","trim":"\u01F0","branco":false,"maiusculas":"\u01F0"},
+{"texto":"\u0390","trim":"\u0390","branco":false,"maiusculas":"\u0390"},
+{"texto":"i","trim":"i","branco":false,"maiusculas":"I"},
+{"texto":"\u01C8","trim":"\u01C8","branco":false,"maiusculas":"\u01C7"},
+{"texto":"\uFB06","trim":"\uFB06","branco":false,"maiusculas":"\uFB06"}
 ],
 "observacoes": [
 {"texto":"\u26A0 Gerado pela app Preencher Produtos \u2014 n\u00E3o remover.\n{\u0022subscricoes\u0022:[{\u0022numero\u0022:\u0022911111111\u0022,\u0022duracao_meses\u0022:30},{\u0022numero\u0022:\u0022922222222\u0022,\u0022duracao_meses\u0022:24}]}","resultado":{"subscricoes":[{"numero":"911111111","duracaoMeses":30,"quantidade":1},{"numero":"922222222","duracaoMeses":24,"quantidade":1}]}},

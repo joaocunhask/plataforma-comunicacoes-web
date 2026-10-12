@@ -13,7 +13,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:status": "tsx scripts/db-status.mts",
-    "oraculo:gerar": "dotnet run --project ferramentas/oraculo-net -- tests/oraculo/casos-net.json"
+    "oraculo:gerar": "dotnet run --project ferramentas/oraculo-net -- tests/oraculo"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",

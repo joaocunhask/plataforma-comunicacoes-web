@@ -13,17 +13,23 @@ export function trimNet(texto: string): string {
   return texto.replace(BORDAS_COM_ESPACO, "");
 }
 
+const I_SEM_PONTO = String.fromCharCode(0x0131);
+
 /**
- * string.ToUpperInvariant() do .NET: um carácter dá sempre um carácter. O toUpperCase()
- * do JS expande alguns ("ß" → "SS", "ﬆ" → "ST"), que o .NET deixa como estão.
+ * char.ToUpperInvariant do .NET: um carácter dá sempre um carácter. O toUpperCase() do JS
+ * expande alguns ("ß" → "SS", "ﬆ" → "ST"), que o .NET deixa como estão, e passa o i sem
+ * ponto a "I", que o .NET também deixa (exceção deliberada do runtime, com ICU ou sem ele).
  */
+export function maiusculaInvariantNet(c: string): string {
+  if (c === I_SEM_PONTO) return c;
+  const maiuscula = c.toUpperCase();
+  return maiuscula.length === 1 ? maiuscula : c;
+}
+
+/** string.ToUpperInvariant() do .NET (carácter a carácter, ver maiusculaInvariantNet). */
 export function toUpperInvariantNet(texto: string): string {
   let resultado = "";
-  for (let i = 0; i < texto.length; i++) {
-    const c = texto[i];
-    const maiuscula = c.toUpperCase();
-    resultado += maiuscula.length === 1 ? maiuscula : c;
-  }
+  for (let i = 0; i < texto.length; i++) resultado += maiusculaInvariantNet(texto[i]);
   return resultado;
 }
 
