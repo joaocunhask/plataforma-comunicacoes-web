@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Oráculo do motor de cálculo: compila os ficheiros ORIGINAIS do motor C# (do repo
+    PlataformaComunicacoes, por ligação, sem cópia) e grava os resultados que dão para
+    milhares de casos em tests/oraculo/casos-net.json. Os testes TypeScript têm de bater
+    com todos. Ver o cabeçalho de Program.cs.
+
+    O repo .NET procura-se ao lado deste por omissão; noutro sítio, passar a propriedade
+    PlataformaNet ao dotnet run (p:PlataformaNet=C:\caminho\PlataformaComunicacoes\).
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <PlataformaNet Condition="'$(PlataformaNet)' == ''">$(MSBuildThisFileDirectory)..\..\..\PlataformaComunicacoes\</PlataformaNet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(PlataformaNet)src\PlataformaComunicacoes.Infrastructure\Services\Vodafone\UpfrontCalculator.cs" Link="MotorNet\UpfrontCalculator.cs" />
+    <Compile Include="$(PlataformaNet)src\PlataformaComunicacoes.Infrastructure\Services\Vodafone\TrimestralPremiosCalculator.cs" Link="MotorNet\TrimestralPremiosCalculator.cs" />
+    <Compile Include="$(PlataformaNet)src\PlataformaComunicacoes.Infrastructure\Services\Vodafone\TrimestralPremiosModels.cs" Link="MotorNet\TrimestralPremiosModels.cs" />
+    <Compile Include="$(PlataformaNet)src\PlataformaComunicacoes.Infrastructure\Services\Pipedrive\DealProductCommentsParser.cs" Link="MotorNet\DealProductCommentsParser.cs" />
+    <Compile Include="$(PlataformaNet)src\PlataformaComunicacoes.Shared\Patamares\*.cs" LinkBase="MotorNet\Patamares" />
+  </ItemGroup>
+
+</Project>

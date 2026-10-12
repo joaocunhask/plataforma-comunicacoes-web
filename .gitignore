@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 !.env.example
+
+# oráculo .NET (ferramentas/oraculo-net)
+/ferramentas/**/bin/
+/ferramentas/**/obj/
