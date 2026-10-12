@@ -17,7 +17,37 @@ Reescrita da PlataformaComunicacoes (.NET/Blazor/SQL Server na Azure) em
    (precisa de uma ligação só de leitura a uma **cópia** da BD de produção)
 2. **Motor de cálculo** em `src/lib/calculo/`, a reproduzir ao cêntimo o motor C# — ✅ feito
 3. **Login** com os hashes ASP.NET Identity e o 2FA migrados, sem reset de passwords —
-   ✅ verificação feita (`src/lib/identity/`); falta ligá-la à sessão (Better Auth)
+   ✅ feito (`src/lib/identity/` + Better Auth em `src/lib/auth/`), verificado de ponta a ponta
+
+## Autenticação (`src/lib/auth/`)
+
+Better Auth com sessões em BD, e o fluxo de login da API .NET num plugin próprio
+(`plugin-identity.ts`):
+
+1. conta bloqueada → recusa antes de ver a password (`CONTA_BLOQUEADA`)
+2. password no formato do Identity; errada → conta uma falha (5 → 15 min bloqueado)
+3. certa → limpa as falhas e regrava o hash se tiver parâmetros antigos (V2, SHA256, < 100 000)
+4. conta por ativar → `EMAIL_NOT_VERIFIED`
+5. 2FA ativo → desafio (cookie assinado, 10 min) e `/entrar/codigo`; o código valida-se
+   com o TOTP do Identity (as chaves já configuradas continuam a valer)
+6. empresa: nenhuma → `SEM_EMPRESA`; uma → fica ativa; várias → `/escolher-empresa`
+
+Sessão: 30 min sem atividade (renovada por `RenovarSessao` enquanto se usa a página) e
+teto absoluto de 12 h desde o login — os valores de produção da API .NET. As páginas leem
+a sessão por `src/lib/auth/sessao.ts` (`exigirSessao`, `exigirEmpresaAtiva`).
+
+**Modelo:** o utilizador do Better Auth é o próprio `AspNetUsers` (ids e chaves estrangeiras
+intactos; o ETL continua 1:1). Tabelas novas: `auth_sessoes` (com `empresa_ativa_id`),
+`auth_contas` (o hash da password vive aqui, em `password`) e `auth_verificacoes`. O email
+tem de estar em minúsculas (o Better Auth procura assim): **o ETL tem de o garantir**.
+
+**Diferença deliberada face ao .NET:** o código 2FA só é aceite depois da password. A API
+.NET aceita `/auth/totp/verify` com email + código, sem password — um atalho que deixa o
+TOTP sozinho abrir a conta.
+
+Variáveis: `BETTER_AUTH_SECRET` (aleatório, ≥ 32 bytes) e `BETTER_AUTH_URL` (o URL público).
+**Na Vercel têm de existir antes de o login funcionar** (sem o segredo o build passa, mas
+o Better Auth recusa-se a arrancar em produção).
 
 ## Compatibilidade com o Identity (`src/lib/identity/`)
 
@@ -93,9 +123,17 @@ apuramento trimestral, mais o replay do apuramento real de 2026-Q3 (bate ao cên
 
 ## Desenvolvimento
 ```bash
-cp .env.example .env.local   # preencher DATABASE_URL
+cp .env.example .env.local   # preencher DATABASE_URL e BETTER_AUTH_SECRET
 npm install
 npm run dev
 npm test
 npm run db:status            # a que BD o .env.local aponta (só leitura)
+```
+
+Login em desenvolvimento (só numa BD de desenvolvimento; recusa correr se houver empresas reais):
+```bash
+npm run dev:utilizadores-teste      # cria 5 utilizadores @exemplo.test (password e chave 2FA no .env.local)
+npm run dev:codigo-2fa              # o código atual do autenticador de teste
+npm run dev:verificar-login         # verifica o fluxo de ponta a ponta contra o npm run dev
+npm run dev:utilizadores-teste -- --apagar   # remove-os (o ETL exige a BD vazia)
 ```

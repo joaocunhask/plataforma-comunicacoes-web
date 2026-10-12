@@ -13,14 +13,19 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:status": "tsx scripts/db-status.mts",
-    "oraculo:gerar": "dotnet run --project ferramentas/oraculo-net -- tests/oraculo"
+    "oraculo:gerar": "dotnet run --project ferramentas/oraculo-net -- tests/oraculo",
+    "dev:utilizadores-teste": "tsx --env-file=.env.local scripts/dev/utilizadores-teste.mts",
+    "dev:codigo-2fa": "tsx --env-file=.env.local scripts/dev/codigo-2fa.mts",
+    "dev:verificar-login": "tsx --env-file=.env.local scripts/dev/verificar-login.mts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
+    "better-auth": "^1.7.7",
     "drizzle-orm": "^0.45.4",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
     "zod": "^4.6.6"
   },
   "devDependencies": {

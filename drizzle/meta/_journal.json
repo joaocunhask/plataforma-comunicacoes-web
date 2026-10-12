@@ -15,6 +15,20 @@
       "when": 1791794223773,
       "tag": "0001_acertos_sem_delete",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791800912227,
+      "tag": "0002_better_auth",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791801325138,
+      "tag": "0003_aspnetusers_defaults",
+      "breakpoints": true
     }
   ]
 }

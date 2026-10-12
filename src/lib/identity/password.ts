@@ -8,7 +8,7 @@
 //   V3: 0x01 | prf(4, BE) | iterações(4, BE) | tamanho do salt(4, BE) | salt | subchave
 //       prf 0 = HMAC-SHA1, 1 = HMAC-SHA256, 2 = HMAC-SHA512; o .NET atual gera SHA512, 100 000.
 
-import { pbkdf2, timingSafeEqual } from "node:crypto";
+import { pbkdf2, randomBytes, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { deBase64Net } from "./base64-net";
 
@@ -76,6 +76,33 @@ async function verificarV3(hash: Buffer, password: string): Promise<{ ok: boolea
   if (!password.isWellFormed()) return falhou;
   const ok = iguais(await subchave(password, salt, digest, iteracoes, tamanhoSubchave), esperada);
   return { ok, iteracoes, prf };
+}
+
+/**
+ * PasswordHasher.HashPassword com as opções por omissão: V3, HMAC-SHA512, 100 000
+ * iterações, salt de 16 bytes, subchave de 32. As passwords novas ficam no formato do
+ * Identity, que o .NET também lê — um regresso ao sistema antigo não as perde.
+ */
+export async function hashPasswordIdentity(password: string): Promise<string> {
+  const salt = randomBytes(16);
+  const cabecalho = Buffer.alloc(13);
+  cabecalho[0] = 0x01;
+  cabecalho.writeUInt32BE(SHA512, 1);
+  cabecalho.writeUInt32BE(ITERACOES_IDENTITY, 5);
+  cabecalho.writeUInt32BE(salt.length, 9);
+  const chave = await subchave(password, salt, "sha512", ITERACOES_IDENTITY, 32);
+  return Buffer.concat([cabecalho, salt, chave]).toString("base64");
+}
+
+/**
+ * Se um hash (já verificado) deve ser regravado com os parâmetros atuais — o mesmo critério
+ * do "ok-rehash", mas só a ler o cabeçalho (sem voltar a correr o PBKDF2).
+ */
+export function precisaDeRehash(hashGuardado: string): boolean {
+  const hash = deBase64Net(hashGuardado);
+  if (hash[0] === 0x00) return true;
+  if (hash[0] !== 0x01 || hash.length < 13) return false;
+  return hash.readUInt32BE(1) !== SHA512 || hash.readInt32BE(5) < ITERACOES_IDENTITY;
 }
 
 /**

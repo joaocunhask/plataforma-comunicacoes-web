@@ -22,6 +22,20 @@ using PlataformaComunicacoes.Shared.Patamares;
 
 const int Semente = 20261012;
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+// Sentido inverso: o .NET verifica hashes gerados pelo TypeScript (hashPasswordIdentity).
+//   dotnet run --project ferramentas/oraculo-net -- verificar-hashes <ficheiro JSON [{hash, password}]>
+if (args is ["verificar-hashes", var ficheiroHashes])
+{
+    var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<object>();
+    foreach (var item in JsonDocument.Parse(File.ReadAllText(ficheiroHashes)).RootElement.EnumerateArray())
+    {
+        var hash = item.GetProperty("hash").GetString()!;
+        var password = item.GetProperty("password").GetString()!;
+        Console.WriteLine($"{hasher.VerifyHashedPassword(null!, hash, password)} | errada: {hasher.VerifyHashedPassword(null!, hash, password + "x")}");
+    }
+    return;
+}
 var pasta = args.Length > 0 ? args[0] : "tests/oraculo";
 var r = new Random(Semente);
 var seccoes = new List<(string Nome, List<object?> Casos)>();

@@ -9,7 +9,9 @@ import {
   type EstadoBloqueio,
   estaBloqueado,
   gerarChaveAutenticador,
+  hashPasswordIdentity,
   limparFalhas,
+  precisaDeRehash,
   registarFalha,
   uriOtpauth,
   validarCodigoAutenticador,
@@ -48,6 +50,21 @@ describe("verificarPasswordIdentity", () => {
 
   it("hash que não é base64 lança, como o Convert.FromBase64String do .NET", async () => {
     await expect(verificarPasswordIdentity("!!!!", "x")).rejects.toThrow(/base64/);
+  });
+});
+
+describe("hashPasswordIdentity", () => {
+  it("gera o formato atual do Identity (V3, SHA512, 100 000 iterações), que verifica como 'ok'", async () => {
+    const hash = await hashPasswordIdentity("Password1!");
+    expect(Buffer.from(hash, "base64").subarray(0, 13).toString("hex")).toBe("0100000002000186a000000010");
+    expect(await verificarPasswordIdentity(hash, "Password1!")).toBe("ok");
+    expect(precisaDeRehash(hash)).toBe(false);
+  });
+
+  it("precisaDeRehash segue o critério do ok-rehash, só pelo cabeçalho", () => {
+    expect(precisaDeRehash(hashV3("x", 1, 100_000))).toBe(true); // SHA256
+    expect(precisaDeRehash(hashV3("x", 2, 10_000))).toBe(true); // poucas iterações
+    expect(precisaDeRehash(Buffer.concat([Buffer.from([0]), randomBytes(48)]).toString("base64"))).toBe(true); // V2
   });
 });
 

@@ -66,28 +66,37 @@ export const aspNetRoleClaims = pgTable(
   (t) => [index("IX_AspNetRoleClaims_RoleId").on(t.roleId)],
 );
 
+// É também o modelo "user" do Better Auth (src/lib/auth): name → UserName,
+// emailVerified → EmailConfirmed. O Better Auth procura o email em minúsculas, daí o check
+// e o índice único; Image/CreatedAt/UpdatedAt existem só por ele (não vêm do SQL Server).
 export const aspNetUsers = pgTable(
   "AspNetUsers",
   {
     id: varchar("Id", { length: 450 }).primaryKey(),
     userName: varchar("UserName", { length: 256 }),
     normalizedUserName: varchar("NormalizedUserName", { length: 256 }),
-    email: varchar("Email", { length: 256 }),
+    email: varchar("Email", { length: 256 }).notNull(),
     normalizedEmail: varchar("NormalizedEmail", { length: 256 }),
     emailConfirmed: boolean("EmailConfirmed").notNull(),
     passwordHash: text("PasswordHash"),
     securityStamp: text("SecurityStamp"),
     concurrencyStamp: text("ConcurrencyStamp"),
     phoneNumber: text("PhoneNumber"),
-    phoneNumberConfirmed: boolean("PhoneNumberConfirmed").notNull(),
-    twoFactorEnabled: boolean("TwoFactorEnabled").notNull(),
+    // Os valores por omissão são os do Identity para um utilizador novo (o Better Auth não os escreve).
+    phoneNumberConfirmed: boolean("PhoneNumberConfirmed").notNull().default(false),
+    twoFactorEnabled: boolean("TwoFactorEnabled").notNull().default(false),
     lockoutEnd: timestamp("LockoutEnd", { precision: 6, withTimezone: true }),
-    lockoutEnabled: boolean("LockoutEnabled").notNull(),
-    accessFailedCount: integer("AccessFailedCount").notNull(),
+    lockoutEnabled: boolean("LockoutEnabled").notNull().default(true),
+    accessFailedCount: integer("AccessFailedCount").notNull().default(0),
+    image: text("Image"),
+    createdAt: timestamp("CreatedAt", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("UpdatedAt", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [
     index("EmailIndex").on(t.normalizedEmail),
     uniqueIndex("UserNameIndex").on(t.normalizedUserName).where(sql`"NormalizedUserName" IS NOT NULL`),
+    uniqueIndex("uq_aspnetusers_email").on(t.email),
+    check("ck_aspnetusers_email_minusculas", sql`${t.email} = lower(${t.email})`),
   ],
 );
 
@@ -147,6 +156,69 @@ export const aspNetUserTokens = pgTable(
     value: text("Value"),
   },
   (t) => [primaryKey({ name: "PK_AspNetUserTokens", columns: [t.userId, t.loginProvider, t.name] })],
+);
+
+// ── Better Auth (sessões, contas, verificações) ──────────────────────────────
+// Tabelas novas, sem equivalente no SQL Server. O utilizador é o AspNetUsers.
+
+const instante = (nome: string) => timestamp(nome, { withTimezone: true });
+
+export const authSessoes = pgTable(
+  "auth_sessoes",
+  {
+    id: text("id").primaryKey(),
+    token: text("token").notNull().unique("uq_auth_sessoes_token"),
+    userId: varchar("user_id", { length: 450 })
+      .notNull()
+      .references(() => aspNetUsers.id, { onDelete: "cascade" }),
+    expiresAt: instante("expires_at").notNull(),
+    ipAddress: text("ip_address"),
+    userAgent: text("user_agent"),
+    createdAt: instante("created_at").notNull().defaultNow(),
+    updatedAt: instante("updated_at").notNull().defaultNow(),
+    /** A empresa ativa da sessão (o claim empresa_id do JWT da API .NET). */
+    empresaAtivaId: integer("empresa_ativa_id").references(() => orgEmpresas.id, { onDelete: "set null" }),
+  },
+  (t) => [index("ix_auth_sessoes_user").on(t.userId)],
+);
+
+export const authContas = pgTable(
+  "auth_contas",
+  {
+    id: text("id").primaryKey(),
+    accountId: text("account_id").notNull(),
+    providerId: text("provider_id").notNull(),
+    userId: varchar("user_id", { length: 450 })
+      .notNull()
+      .references(() => aspNetUsers.id, { onDelete: "cascade" }),
+    accessToken: text("access_token"),
+    refreshToken: text("refresh_token"),
+    idToken: text("id_token"),
+    accessTokenExpiresAt: instante("access_token_expires_at"),
+    refreshTokenExpiresAt: instante("refresh_token_expires_at"),
+    scope: text("scope"),
+    /** Hash no formato do ASP.NET Identity (o PasswordHash migrado; ver src/lib/identity). */
+    password: text("password"),
+    createdAt: instante("created_at").notNull().defaultNow(),
+    updatedAt: instante("updated_at").notNull().defaultNow(),
+  },
+  (t) => [
+    index("ix_auth_contas_user").on(t.userId),
+    unique("uq_auth_contas_provider_account").on(t.providerId, t.accountId),
+  ],
+);
+
+export const authVerificacoes = pgTable(
+  "auth_verificacoes",
+  {
+    id: text("id").primaryKey(),
+    identifier: text("identifier").notNull(),
+    value: text("value").notNull(),
+    expiresAt: instante("expires_at").notNull(),
+    createdAt: instante("created_at").notNull().defaultNow(),
+    updatedAt: instante("updated_at").notNull().defaultNow(),
+  },
+  (t) => [index("ix_auth_verificacoes_identifier").on(t.identifier)],
 );
 
 // ── Referência global ────────────────────────────────────────────────────────
