@@ -1,0 +1,4669 @@
+{
+  "id": "cf0d2012-f8b6-4734-bc75-23b65b4c498c",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.AspNetRoleClaims": {
+      "name": "AspNetRoleClaims",
+      "schema": "",
+      "columns": {
+        "Id": {
+          "name": "Id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "AspNetRoleClaims_Id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "RoleId": {
+          "name": "RoleId",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ClaimType": {
+          "name": "ClaimType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClaimValue": {
+          "name": "ClaimValue",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IX_AspNetRoleClaims_RoleId": {
+          "name": "IX_AspNetRoleClaims_RoleId",
+          "columns": [
+            {
+              "expression": "RoleId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "AspNetRoleClaims_RoleId_AspNetRoles_Id_fk": {
+          "name": "AspNetRoleClaims_RoleId_AspNetRoles_Id_fk",
+          "tableFrom": "AspNetRoleClaims",
+          "tableTo": "AspNetRoles",
+          "columnsFrom": [
+            "RoleId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.AspNetRoles": {
+      "name": "AspNetRoles",
+      "schema": "",
+      "columns": {
+        "Id": {
+          "name": "Id",
+          "type": "varchar(450)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "Name": {
+          "name": "Name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "NormalizedName": {
+          "name": "NormalizedName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ConcurrencyStamp": {
+          "name": "ConcurrencyStamp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "RoleNameIndex": {
+          "name": "RoleNameIndex",
+          "columns": [
+            {
+              "expression": "NormalizedName",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"NormalizedName\" IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.AspNetUserClaims": {
+      "name": "AspNetUserClaims",
+      "schema": "",
+      "columns": {
+        "Id": {
+          "name": "Id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "AspNetUserClaims_Id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ClaimType": {
+          "name": "ClaimType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClaimValue": {
+          "name": "ClaimValue",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IX_AspNetUserClaims_UserId": {
+          "name": "IX_AspNetUserClaims_UserId",
+          "columns": [
+            {
+              "expression": "UserId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "AspNetUserClaims_UserId_AspNetUsers_Id_fk": {
+          "name": "AspNetUserClaims_UserId_AspNetUsers_Id_fk",
+          "tableFrom": "AspNetUserClaims",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.AspNetUserLogins": {
+      "name": "AspNetUserLogins",
+      "schema": "",
+      "columns": {
+        "LoginProvider": {
+          "name": "LoginProvider",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ProviderKey": {
+          "name": "ProviderKey",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ProviderDisplayName": {
+          "name": "ProviderDisplayName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_AspNetUserLogins_UserId": {
+          "name": "IX_AspNetUserLogins_UserId",
+          "columns": [
+            {
+              "expression": "UserId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "AspNetUserLogins_UserId_AspNetUsers_Id_fk": {
+          "name": "AspNetUserLogins_UserId_AspNetUsers_Id_fk",
+          "tableFrom": "AspNetUserLogins",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "PK_AspNetUserLogins": {
+          "name": "PK_AspNetUserLogins",
+          "columns": [
+            "LoginProvider",
+            "ProviderKey"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.AspNetUserRoles": {
+      "name": "AspNetUserRoles",
+      "schema": "",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "RoleId": {
+          "name": "RoleId",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_AspNetUserRoles_RoleId": {
+          "name": "IX_AspNetUserRoles_RoleId",
+          "columns": [
+            {
+              "expression": "RoleId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "AspNetUserRoles_UserId_AspNetUsers_Id_fk": {
+          "name": "AspNetUserRoles_UserId_AspNetUsers_Id_fk",
+          "tableFrom": "AspNetUserRoles",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "AspNetUserRoles_RoleId_AspNetRoles_Id_fk": {
+          "name": "AspNetUserRoles_RoleId_AspNetRoles_Id_fk",
+          "tableFrom": "AspNetUserRoles",
+          "tableTo": "AspNetRoles",
+          "columnsFrom": [
+            "RoleId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "PK_AspNetUserRoles": {
+          "name": "PK_AspNetUserRoles",
+          "columns": [
+            "UserId",
+            "RoleId"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.AspNetUserTokens": {
+      "name": "AspNetUserTokens",
+      "schema": "",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "LoginProvider": {
+          "name": "LoginProvider",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Name": {
+          "name": "Name",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Value": {
+          "name": "Value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "AspNetUserTokens_UserId_AspNetUsers_Id_fk": {
+          "name": "AspNetUserTokens_UserId_AspNetUsers_Id_fk",
+          "tableFrom": "AspNetUserTokens",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "PK_AspNetUserTokens": {
+          "name": "PK_AspNetUserTokens",
+          "columns": [
+            "UserId",
+            "LoginProvider",
+            "Name"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.AspNetUsers": {
+      "name": "AspNetUsers",
+      "schema": "",
+      "columns": {
+        "Id": {
+          "name": "Id",
+          "type": "varchar(450)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "UserName": {
+          "name": "UserName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "NormalizedUserName": {
+          "name": "NormalizedUserName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "Email": {
+          "name": "Email",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "NormalizedEmail": {
+          "name": "NormalizedEmail",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "EmailConfirmed": {
+          "name": "EmailConfirmed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "PasswordHash": {
+          "name": "PasswordHash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SecurityStamp": {
+          "name": "SecurityStamp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ConcurrencyStamp": {
+          "name": "ConcurrencyStamp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "PhoneNumber": {
+          "name": "PhoneNumber",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "PhoneNumberConfirmed": {
+          "name": "PhoneNumberConfirmed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "TwoFactorEnabled": {
+          "name": "TwoFactorEnabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "LockoutEnd": {
+          "name": "LockoutEnd",
+          "type": "timestamp (6) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "LockoutEnabled": {
+          "name": "LockoutEnabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "AccessFailedCount": {
+          "name": "AccessFailedCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "EmailIndex": {
+          "name": "EmailIndex",
+          "columns": [
+            {
+              "expression": "NormalizedEmail",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "UserNameIndex": {
+          "name": "UserNameIndex",
+          "columns": [
+            {
+              "expression": "NormalizedUserName",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"NormalizedUserName\" IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.catalog_versao": {
+      "name": "catalog_versao",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "catalog_versao_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "versao_em": {
+          "name": "versao_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "upload_log_id": {
+          "name": "upload_log_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criados": {
+          "name": "criados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizados": {
+          "name": "atualizados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "desativados": {
+          "name": "desativados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "ix_catalog_versao_em": {
+          "name": "ix_catalog_versao_em",
+          "columns": [
+            {
+              "expression": "versao_em",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "catalog_versao_upload_log_id_sys_catalog_upload_log_id_fk": {
+          "name": "catalog_versao_upload_log_id_sys_catalog_upload_log_id_fk",
+          "tableFrom": "catalog_versao",
+          "tableTo": "sys_catalog_upload_log",
+          "columnsFrom": [
+            "upload_log_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cfg_margens": {
+      "name": "cfg_margens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "cfg_margens_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "margem_percentagem": {
+          "name": "margem_percentagem",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "alterado_em": {
+          "name": "alterado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_margens_empresa": {
+          "name": "IX_margens_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "uq_margem_empresa_user_operadora_tipo": {
+          "name": "uq_margem_empresa_user_operadora_tipo",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "aspnet_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "operadora_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "tipo",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ux_cfg_margens_ativa": {
+          "name": "ux_cfg_margens_ativa",
+          "columns": [
+            {
+              "expression": "aspnet_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "operadora_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "tipo",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "ativo",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "cfg_margens_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "cfg_margens_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "cfg_margens",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cfg_margens_empresa_id_org_empresas_id_fk": {
+          "name": "cfg_margens_empresa_id_org_empresas_id_fk",
+          "tableFrom": "cfg_margens",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cfg_margens_operadora_id_ref_operadoras_id_fk": {
+          "name": "cfg_margens_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "cfg_margens",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cfg_patamar_config": {
+      "name": "cfg_patamar_config",
+      "schema": "",
+      "columns": {
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "tipo_periodo": {
+          "name": "tipo_periodo",
+          "type": "varchar(12)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "alterado_em": {
+          "name": "alterado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vigente_desde": {
+          "name": "vigente_desde",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "cfg_patamar_config_empresa_id_org_empresas_id_fk": {
+          "name": "cfg_patamar_config_empresa_id_org_empresas_id_fk",
+          "tableFrom": "cfg_patamar_config",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "ck_patamar_config_periodo": {
+          "name": "ck_patamar_config_periodo",
+          "value": "\"cfg_patamar_config\".\"tipo_periodo\" IN ('ANUAL', 'TRIMESTRAL', 'MENSAL')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.cfg_patamar_escalao": {
+      "name": "cfg_patamar_escalao",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "cfg_patamar_escalao_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ordem": {
+          "name": "ordem",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "limite_inferior": {
+          "name": "limite_inferior",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "percentagem_comercial": {
+          "name": "percentagem_comercial",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "alterado_em": {
+          "name": "alterado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "cfg_patamar_escalao_empresa_id_org_empresas_id_fk": {
+          "name": "cfg_patamar_escalao_empresa_id_org_empresas_id_fk",
+          "tableFrom": "cfg_patamar_escalao",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cfg_patamar_escalao_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "cfg_patamar_escalao_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "cfg_patamar_escalao",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cfg_patamar_escalao_operadora_id_ref_operadoras_id_fk": {
+          "name": "cfg_patamar_escalao_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "cfg_patamar_escalao",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_patamar_escalao": {
+          "name": "uq_patamar_escalao",
+          "nullsNotDistinct": false,
+          "columns": [
+            "empresa_id",
+            "aspnet_user_id",
+            "operadora_id",
+            "ordem"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "ck_patamar_escalao_limite": {
+          "name": "ck_patamar_escalao_limite",
+          "value": "\"cfg_patamar_escalao\".\"limite_inferior\" >= 0"
+        },
+        "ck_patamar_escalao_ordem": {
+          "name": "ck_patamar_escalao_ordem",
+          "value": "\"cfg_patamar_escalao\".\"ordem\" >= 1"
+        },
+        "ck_patamar_escalao_pct": {
+          "name": "ck_patamar_escalao_pct",
+          "value": "\"cfg_patamar_escalao\".\"percentagem_comercial\" BETWEEN 0 AND 100"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.org_empresa_oferta_pipedrive": {
+      "name": "org_empresa_oferta_pipedrive",
+      "schema": "",
+      "columns": {
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "oferta_id": {
+          "name": "oferta_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pipedrive_option_id": {
+          "name": "pipedrive_option_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "org_empresa_oferta_pipedrive_empresa_id_org_empresas_id_fk": {
+          "name": "org_empresa_oferta_pipedrive_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_empresa_oferta_pipedrive",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "org_empresa_oferta_pipedrive_oferta_id_ref_ofertas_id_fk": {
+          "name": "org_empresa_oferta_pipedrive_oferta_id_ref_ofertas_id_fk",
+          "tableFrom": "org_empresa_oferta_pipedrive",
+          "tableTo": "ref_ofertas",
+          "columnsFrom": [
+            "oferta_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "pk_org_empresa_oferta_pipedrive": {
+          "name": "pk_org_empresa_oferta_pipedrive",
+          "columns": [
+            "empresa_id",
+            "oferta_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "uq_org_empresa_oferta_pipedrive_option": {
+          "name": "uq_org_empresa_oferta_pipedrive_option",
+          "nullsNotDistinct": false,
+          "columns": [
+            "empresa_id",
+            "pipedrive_option_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_empresa_operadoras": {
+      "name": "org_empresa_operadoras",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_empresa_operadoras_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "org_empresa_operadoras_empresa_id_org_empresas_id_fk": {
+          "name": "org_empresa_operadoras_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_empresa_operadoras",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "org_empresa_operadoras_operadora_id_ref_operadoras_id_fk": {
+          "name": "org_empresa_operadoras_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "org_empresa_operadoras",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_empresa_operadora": {
+          "name": "uq_empresa_operadora",
+          "nullsNotDistinct": false,
+          "columns": [
+            "empresa_id",
+            "operadora_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_empresa_pipedrive_field_map": {
+      "name": "org_empresa_pipedrive_field_map",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_empresa_pipedrive_field_map_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chave_logica": {
+          "name": "chave_logica",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pipedrive_field_key": {
+          "name": "pipedrive_field_key",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "org_empresa_pipedrive_field_map_empresa_id_org_empresas_id_fk": {
+          "name": "org_empresa_pipedrive_field_map_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_empresa_pipedrive_field_map",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_pd_field_map": {
+          "name": "uq_pd_field_map",
+          "nullsNotDistinct": false,
+          "columns": [
+            "empresa_id",
+            "chave_logica"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_empresas": {
+      "name": "org_empresas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_empresas_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nif": {
+          "name": "nif",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "webhook_token": {
+          "name": "webhook_token",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "pipedrive_api_token": {
+          "name": "pipedrive_api_token",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pipedrive_field_classificacao_oferta": {
+          "name": "pipedrive_field_classificacao_oferta",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pipedrive_company_id": {
+          "name": "pipedrive_company_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ultima_sync_versao_id": {
+          "name": "ultima_sync_versao_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "uq_empresas_pipedrive_api_token": {
+          "name": "uq_empresas_pipedrive_api_token",
+          "columns": [
+            {
+              "expression": "pipedrive_api_token",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "pipedrive_api_token IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "uq_org_empresas_pipedrive_company_id": {
+          "name": "uq_org_empresas_pipedrive_company_id",
+          "columns": [
+            {
+              "expression": "pipedrive_company_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "pipedrive_company_id IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "org_empresas_ultima_sync_versao_id_catalog_versao_id_fk": {
+          "name": "org_empresas_ultima_sync_versao_id_catalog_versao_id_fk",
+          "tableFrom": "org_empresas",
+          "tableTo": "catalog_versao",
+          "columnsFrom": [
+            "ultima_sync_versao_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_empresas_webhook_token": {
+          "name": "uq_empresas_webhook_token",
+          "nullsNotDistinct": false,
+          "columns": [
+            "webhook_token"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_grupos": {
+      "name": "org_grupos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_grupos_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "id_zona": {
+          "name": "id_zona",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_grupos_empresa": {
+          "name": "IX_grupos_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "org_grupos_id_zona_org_zonas_id_fk": {
+          "name": "org_grupos_id_zona_org_zonas_id_fk",
+          "tableFrom": "org_grupos",
+          "tableTo": "org_zonas",
+          "columnsFrom": [
+            "id_zona"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "org_grupos_empresa_id_org_empresas_id_fk": {
+          "name": "org_grupos_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_grupos",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_membro_roles": {
+      "name": "org_membro_roles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_membro_roles_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "membro_id": {
+          "name": "membro_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_membro_roles_membro": {
+          "name": "IX_membro_roles_membro",
+          "columns": [
+            {
+              "expression": "membro_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "org_membro_roles_membro_id_org_membros_id_fk": {
+          "name": "org_membro_roles_membro_id_org_membros_id_fk",
+          "tableFrom": "org_membro_roles",
+          "tableTo": "org_membros",
+          "columnsFrom": [
+            "membro_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_membro_role": {
+          "name": "uq_membro_role",
+          "nullsNotDistinct": false,
+          "columns": [
+            "membro_id",
+            "role"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_membros": {
+      "name": "org_membros",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_membros_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "bloqueado": {
+          "name": "bloqueado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "bloqueado_em": {
+          "name": "bloqueado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_crm": {
+          "name": "id_crm",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sfid": {
+          "name": "sfid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recebe_premio": {
+          "name": "recebe_premio",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {
+        "uq_membro_empresa_idcrm": {
+          "name": "uq_membro_empresa_idcrm",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "id_crm",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "id_crm IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "org_membros_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "org_membros_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "org_membros",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "org_membros_empresa_id_org_empresas_id_fk": {
+          "name": "org_membros_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_membros",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_membro_user_empresa": {
+          "name": "uq_membro_user_empresa",
+          "nullsNotDistinct": false,
+          "columns": [
+            "aspnet_user_id",
+            "empresa_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_pipedrive_oauth_tokens": {
+      "name": "org_pipedrive_oauth_tokens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_pipedrive_oauth_tokens_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pipedrive_user_id": {
+          "name": "pipedrive_user_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pipedrive_company_id": {
+          "name": "pipedrive_company_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "access_token_ciphertext": {
+          "name": "access_token_ciphertext",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refresh_token_ciphertext": {
+          "name": "refresh_token_ciphertext",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "api_domain": {
+          "name": "api_domain",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scope": {
+          "name": "scope",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "atualizado_em": {
+          "name": "atualizado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "revogado_em": {
+          "name": "revogado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "uq_org_pipedrive_oauth_tokens_pipedrive_user_ativo": {
+          "name": "uq_org_pipedrive_oauth_tokens_pipedrive_user_ativo",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "pipedrive_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "revogado_em IS NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "org_pipedrive_oauth_tokens_empresa_id_org_empresas_id_fk": {
+          "name": "org_pipedrive_oauth_tokens_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_pipedrive_oauth_tokens",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "org_pipedrive_oauth_tokens_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "org_pipedrive_oauth_tokens_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "org_pipedrive_oauth_tokens",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_utilizadores_grupos": {
+      "name": "org_utilizadores_grupos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_utilizadores_grupos_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_grupo": {
+          "name": "id_grupo",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "org_utilizadores_grupos_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "org_utilizadores_grupos_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "org_utilizadores_grupos",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "org_utilizadores_grupos_id_grupo_org_grupos_id_fk": {
+          "name": "org_utilizadores_grupos_id_grupo_org_grupos_id_fk",
+          "tableFrom": "org_utilizadores_grupos",
+          "tableTo": "org_grupos",
+          "columnsFrom": [
+            "id_grupo"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_ug_user": {
+          "name": "uq_ug_user",
+          "nullsNotDistinct": false,
+          "columns": [
+            "aspnet_user_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.org_zonas": {
+      "name": "org_zonas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "org_zonas_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_zonas_empresa": {
+          "name": "IX_zonas_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "org_zonas_empresa_id_org_empresas_id_fk": {
+          "name": "org_zonas_empresa_id_org_empresas_id_fk",
+          "tableFrom": "org_zonas",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_ajuste_comissao_cruzado_vodafone": {
+      "name": "ref_ajuste_comissao_cruzado_vodafone",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_ajuste_comissao_cruzado_vodafone_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nr_linhas_abaixo_100": {
+          "name": "nr_linhas_abaixo_100",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ajuste": {
+          "name": "ajuste",
+          "type": "numeric(5, 4)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_ajuste_cruzado_empresa": {
+          "name": "IX_ajuste_cruzado_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "uq_ajuste_cruzado_empresa": {
+          "name": "uq_ajuste_cruzado_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "nr_linhas_abaixo_100",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ref_ajuste_comissao_cruzado_vodafone_empresa_id_org_empresas_id_fk": {
+          "name": "ref_ajuste_comissao_cruzado_vodafone_empresa_id_org_empresas_id_fk",
+          "tableFrom": "ref_ajuste_comissao_cruzado_vodafone",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_ajuste_comissao_propria_linha_vodafone": {
+      "name": "ref_ajuste_comissao_propria_linha_vodafone",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_ajuste_comissao_propria_linha_vodafone_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "pct_min": {
+          "name": "pct_min",
+          "type": "numeric(5, 4)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pct_max": {
+          "name": "pct_max",
+          "type": "numeric(5, 4)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ajuste": {
+          "name": "ajuste",
+          "type": "numeric(5, 4)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_ajuste_propria_linha_empresa": {
+          "name": "IX_ajuste_propria_linha_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "uq_ajuste_linha_empresa": {
+          "name": "uq_ajuste_linha_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "pct_min",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "pct_max",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ref_ajuste_comissao_propria_linha_vodafone_empresa_id_org_empresas_id_fk": {
+          "name": "ref_ajuste_comissao_propria_linha_vodafone_empresa_id_org_empresas_id_fk",
+          "tableFrom": "ref_ajuste_comissao_propria_linha_vodafone",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_ajuste_comissao_vodafone": {
+      "name": "ref_ajuste_comissao_vodafone",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_ajuste_comissao_vodafone_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "duracao_min": {
+          "name": "duracao_min",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duracao_max": {
+          "name": "duracao_max",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ajuste": {
+          "name": "ajuste",
+          "type": "numeric(5, 4)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_ajuste_comissao_empresa": {
+          "name": "IX_ajuste_comissao_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "uq_ajuste_duracao_empresa": {
+          "name": "uq_ajuste_duracao_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "duracao_min",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "duracao_max",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ref_ajuste_comissao_vodafone_empresa_id_org_empresas_id_fk": {
+          "name": "ref_ajuste_comissao_vodafone_empresa_id_org_empresas_id_fk",
+          "tableFrom": "ref_ajuste_comissao_vodafone",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_objetivos": {
+      "name": "ref_objetivos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_objetivos_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "linha": {
+          "name": "linha",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_funil_pipedrive": {
+          "name": "id_funil_pipedrive",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nome_funil_pipedrive": {
+          "name": "nome_funil_pipedrive",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_tipo_receita": {
+          "name": "id_tipo_receita",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atingimento_linha": {
+          "name": "atingimento_linha",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IX_objetivos_empresa": {
+          "name": "IX_objetivos_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ref_objetivos_id_tipo_receita_ref_tipo_receitas_id_fk": {
+          "name": "ref_objetivos_id_tipo_receita_ref_tipo_receitas_id_fk",
+          "tableFrom": "ref_objetivos",
+          "tableTo": "ref_tipo_receitas",
+          "columnsFrom": [
+            "id_tipo_receita"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ref_objetivos_empresa_id_org_empresas_id_fk": {
+          "name": "ref_objetivos_empresa_id_org_empresas_id_fk",
+          "tableFrom": "ref_objetivos",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ref_objetivos_operadora_id_ref_operadoras_id_fk": {
+          "name": "ref_objetivos_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "ref_objetivos",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_ofertas": {
+      "name": "ref_ofertas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_ofertas_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ref_ofertas_operadora_id_ref_operadoras_id_fk": {
+          "name": "ref_ofertas_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "ref_ofertas",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_classe": {
+          "name": "uq_classe",
+          "nullsNotDistinct": false,
+          "columns": [
+            "nome"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_operadoras": {
+      "name": "ref_operadoras",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_operadoras_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_operadora_nome": {
+          "name": "uq_operadora_nome",
+          "nullsNotDistinct": false,
+          "columns": [
+            "nome"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_plano_comissional_vodafone": {
+      "name": "ref_plano_comissional_vodafone",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_plano_comissional_vodafone_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "tipo_receita": {
+          "name": "tipo_receita",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "oferta": {
+          "name": "oferta",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "objetivos_atingidos": {
+          "name": "objetivos_atingidos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "upfront": {
+          "name": "upfront",
+          "type": "numeric(6, 4)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "IX_plano_comissional_empresa": {
+          "name": "IX_plano_comissional_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ref_plano_comissional_vodafone_tipo_receita_ref_tipo_receitas_id_fk": {
+          "name": "ref_plano_comissional_vodafone_tipo_receita_ref_tipo_receitas_id_fk",
+          "tableFrom": "ref_plano_comissional_vodafone",
+          "tableTo": "ref_tipo_receitas",
+          "columnsFrom": [
+            "tipo_receita"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ref_plano_comissional_vodafone_oferta_ref_ofertas_id_fk": {
+          "name": "ref_plano_comissional_vodafone_oferta_ref_ofertas_id_fk",
+          "tableFrom": "ref_plano_comissional_vodafone",
+          "tableTo": "ref_ofertas",
+          "columnsFrom": [
+            "oferta"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ref_plano_comissional_vodafone_empresa_id_org_empresas_id_fk": {
+          "name": "ref_plano_comissional_vodafone_empresa_id_org_empresas_id_fk",
+          "tableFrom": "ref_plano_comissional_vodafone",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_plano_empresa": {
+          "name": "uq_plano_empresa",
+          "nullsNotDistinct": true,
+          "columns": [
+            "empresa_id",
+            "tipo_receita",
+            "oferta",
+            "objetivos_atingidos"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_produtos_vodafone": {
+      "name": "ref_produtos_vodafone",
+      "schema": "",
+      "columns": {
+        "pricing_plan_id": {
+          "name": "pricing_plan_id",
+          "type": "varchar(50)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "oferta_id": {
+          "name": "oferta_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "linha_produto": {
+          "name": "linha_produto",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "area_produto": {
+          "name": "area_produto",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "subarea_produto": {
+          "name": "subarea_produto",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "hash_conteudo": {
+          "name": "hash_conteudo",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "atualizado_em": {
+          "name": "atualizado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atingimento_nova": {
+          "name": "atingimento_nova",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atingimento_refid": {
+          "name": "atingimento_refid",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "ix_ref_produtos_vodafone_oferta_ativo": {
+          "name": "ix_ref_produtos_vodafone_oferta_ativo",
+          "columns": [
+            {
+              "expression": "oferta_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ativo",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ref_produtos_vodafone_oferta_id_ref_ofertas_id_fk": {
+          "name": "ref_produtos_vodafone_oferta_id_ref_ofertas_id_fk",
+          "tableFrom": "ref_produtos_vodafone",
+          "tableTo": "ref_ofertas",
+          "columnsFrom": [
+            "oferta_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_tipo_acerto": {
+      "name": "ref_tipo_acerto",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recalcula": {
+          "name": "recalcula",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "exige_negocio": {
+          "name": "exige_negocio",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "ordem": {
+          "name": "ordem",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_ref_tipo_acerto_codigo": {
+          "name": "uq_ref_tipo_acerto_codigo",
+          "nullsNotDistinct": false,
+          "columns": [
+            "codigo"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ref_tipo_receitas": {
+      "name": "ref_tipo_receitas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "ref_tipo_receitas_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "tipo_receita": {
+          "name": "tipo_receita",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_tipo_receita": {
+          "name": "uq_tipo_receita",
+          "nullsNotDistinct": false,
+          "columns": [
+            "tipo_receita"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sys_calculo_comissoes": {
+      "name": "sys_calculo_comissoes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "descricao_produto": {
+          "name": "descricao_produto",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duracao_contrato": {
+          "name": "duracao_contrato",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_inicio_contrato": {
+          "name": "data_inicio_contrato",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "quantidade": {
+          "name": "quantidade",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "upfront": {
+          "name": "upfront",
+          "type": "numeric(6, 4)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "oferta": {
+          "name": "oferta",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_upfront_bruto": {
+          "name": "valor_upfront_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_calculo": {
+          "name": "data_calculo",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "premios_bruto": {
+          "name": "premios_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "margem_percentagem": {
+          "name": "margem_percentagem",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_upfront_liquido": {
+          "name": "valor_upfront_liquido",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "premios_liquido": {
+          "name": "premios_liquido",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_unidade": {
+          "name": "valor_unidade",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_sys_negocio": {
+          "name": "id_sys_negocio",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ajuste_duracao": {
+          "name": "ajuste_duracao",
+          "type": "numeric(6, 4)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "produto_id": {
+          "name": "produto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_associado": {
+          "name": "numero_associado",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pricing_plan_id": {
+          "name": "pricing_plan_id",
+          "type": "varchar(9)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IX_calculo_comissoes_empresa": {
+          "name": "IX_calculo_comissoes_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "data_calculo",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ix_sci_id_sys_negocio": {
+          "name": "ix_sci_id_sys_negocio",
+          "columns": [
+            {
+              "expression": "id_sys_negocio",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_calculo_comissoes_empresa_id_org_empresas_id_fk": {
+          "name": "sys_calculo_comissoes_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_calculo_comissoes",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_calculo_comissoes_operadora_id_ref_operadoras_id_fk": {
+          "name": "sys_calculo_comissoes_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "sys_calculo_comissoes",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_calculo_comissoes_id_sys_negocio_sys_negocios_id_fk": {
+          "name": "sys_calculo_comissoes_id_sys_negocio_sys_negocios_id_fk",
+          "tableFrom": "sys_calculo_comissoes",
+          "tableTo": "sys_negocios",
+          "columnsFrom": [
+            "id_sys_negocio"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sys_catalog_upload_log": {
+      "name": "sys_catalog_upload_log",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "sys_catalog_upload_log_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "criado_por_user_id": {
+          "name": "criado_por_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ip_origem": {
+          "name": "ip_origem",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nome_ficheiro": {
+          "name": "nome_ficheiro",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tamanho_bytes": {
+          "name": "tamanho_bytes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sha256_ficheiro": {
+          "name": "sha256_ficheiro",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_linhas": {
+          "name": "total_linhas",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criados": {
+          "name": "criados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizados": {
+          "name": "atualizados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "desativados": {
+          "name": "desativados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "erros": {
+          "name": "erros",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "erros_json": {
+          "name": "erros_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duracao_ms": {
+          "name": "duracao_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dry_run": {
+          "name": "dry_run",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {
+        "ix_sys_catalog_upload_log_criado_em": {
+          "name": "ix_sys_catalog_upload_log_criado_em",
+          "columns": [
+            {
+              "expression": "criado_em",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_catalog_upload_log_criado_por_user_id_AspNetUsers_Id_fk": {
+          "name": "sys_catalog_upload_log_criado_por_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "sys_catalog_upload_log",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "criado_por_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sys_contrato_uploads": {
+      "name": "sys_contrato_uploads",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pipedrive_deal_id": {
+          "name": "pipedrive_deal_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pipedrive_user_id": {
+          "name": "pipedrive_user_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_simulacao": {
+          "name": "id_simulacao",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "input_sha256": {
+          "name": "input_sha256",
+          "type": "char(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "input_size_bytes": {
+          "name": "input_size_bytes",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "uploaded_at": {
+          "name": "uploaded_at",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "parse_status": {
+          "name": "parse_status",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "linhas_extraidas": {
+          "name": "linhas_extraidas",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "linhas_mapeadas": {
+          "name": "linhas_mapeadas",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "applied_at": {
+          "name": "applied_at",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "applied_status": {
+          "name": "applied_status",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payload_json": {
+          "name": "payload_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "error_message": {
+          "name": "error_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "ix_sys_contrato_uploads_empresa_deal": {
+          "name": "ix_sys_contrato_uploads_empresa_deal",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "pipedrive_deal_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "uploaded_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ix_sys_contrato_uploads_hash": {
+          "name": "ix_sys_contrato_uploads_hash",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "input_sha256",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ix_sys_contrato_uploads_simulacao": {
+          "name": "ix_sys_contrato_uploads_simulacao",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "id_simulacao",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "where": "id_simulacao IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_contrato_uploads_empresa_id_org_empresas_id_fk": {
+          "name": "sys_contrato_uploads_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_contrato_uploads",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_contrato_uploads_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "sys_contrato_uploads_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "sys_contrato_uploads",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "ck_sys_contrato_uploads_applied_status": {
+          "name": "ck_sys_contrato_uploads_applied_status",
+          "value": "\"sys_contrato_uploads\".\"applied_status\" IS NULL OR \"sys_contrato_uploads\".\"applied_status\" IN ('skipped', 'failed', 'success')"
+        },
+        "ck_sys_contrato_uploads_parse_status": {
+          "name": "ck_sys_contrato_uploads_parse_status",
+          "value": "\"sys_contrato_uploads\".\"parse_status\" IN ('failed', 'partial', 'success')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sys_log_erros": {
+      "name": "sys_log_erros",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "sys_log_erros_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "fluxo": {
+          "name": "fluxo",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mensagem_erro": {
+          "name": "mensagem_erro",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_erro": {
+          "name": "data_erro",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IX_log_erros_empresa": {
+          "name": "IX_log_erros_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "data_erro",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_log_erros_empresa_id_org_empresas_id_fk": {
+          "name": "sys_log_erros_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_log_erros",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sys_negocio_acertos": {
+      "name": "sys_negocio_acertos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_tipo_acerto": {
+          "name": "id_tipo_acerto",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_sys_negocio": {
+          "name": "id_sys_negocio",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_calculo": {
+          "name": "id_calculo",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_associado": {
+          "name": "numero_associado",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_antes_bruto": {
+          "name": "valor_antes_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_antes_liquido": {
+          "name": "valor_antes_liquido",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_depois_bruto": {
+          "name": "valor_depois_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_depois_liquido": {
+          "name": "valor_depois_liquido",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delta_bruto": {
+          "name": "delta_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "delta_liquido": {
+          "name": "delta_liquido",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "campos_alterados": {
+          "name": "campos_alterados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "motivo": {
+          "name": "motivo",
+          "type": "varchar(1000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_por_user_id": {
+          "name": "criado_por_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "delta_upfront_bruto": {
+          "name": "delta_upfront_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delta_premio_bruto": {
+          "name": "delta_premio_bruto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "ix_acertos_empresa_em": {
+          "name": "ix_acertos_empresa_em",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "criado_em",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ix_acertos_negocio": {
+          "name": "ix_acertos_negocio",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "id_sys_negocio",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "criado_em",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_negocio_acertos_empresa_id_org_empresas_id_fk": {
+          "name": "sys_negocio_acertos_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_negocio_acertos",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_negocio_acertos_id_tipo_acerto_ref_tipo_acerto_id_fk": {
+          "name": "sys_negocio_acertos_id_tipo_acerto_ref_tipo_acerto_id_fk",
+          "tableFrom": "sys_negocio_acertos",
+          "tableTo": "ref_tipo_acerto",
+          "columnsFrom": [
+            "id_tipo_acerto"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_negocio_acertos_id_sys_negocio_sys_negocios_id_fk": {
+          "name": "sys_negocio_acertos_id_sys_negocio_sys_negocios_id_fk",
+          "tableFrom": "sys_negocio_acertos",
+          "tableTo": "sys_negocios",
+          "columnsFrom": [
+            "id_sys_negocio"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_negocio_acertos_id_calculo_sys_calculo_comissoes_id_fk": {
+          "name": "sys_negocio_acertos_id_calculo_sys_calculo_comissoes_id_fk",
+          "tableFrom": "sys_negocio_acertos",
+          "tableTo": "sys_calculo_comissoes",
+          "columnsFrom": [
+            "id_calculo"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "sys_negocio_acertos_criado_por_user_id_AspNetUsers_Id_fk": {
+          "name": "sys_negocio_acertos_criado_por_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "sys_negocio_acertos",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "criado_por_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "ck_acertos_calculo_implica_negocio": {
+          "name": "ck_acertos_calculo_implica_negocio",
+          "value": "\"sys_negocio_acertos\".\"id_calculo\" IS NULL OR \"sys_negocio_acertos\".\"id_sys_negocio\" IS NOT NULL"
+        },
+        "ck_acertos_motivo_nao_vazio": {
+          "name": "ck_acertos_motivo_nao_vazio",
+          "value": "length(btrim(\"sys_negocio_acertos\".\"motivo\")) > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sys_negocios": {
+      "name": "sys_negocios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_negocio": {
+          "name": "id_negocio",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "titulo_negocio": {
+          "name": "titulo_negocio",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_comercial": {
+          "name": "id_comercial",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "titulo_funil": {
+          "name": "titulo_funil",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_funil": {
+          "name": "id_funil",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_tipo_receita": {
+          "name": "id_tipo_receita",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "oportunidade": {
+          "name": "oportunidade",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'ATIVO'"
+        },
+        "motivo_anulacao": {
+          "name": "motivo_anulacao",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_criacao": {
+          "name": "data_criacao",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_simulador": {
+          "name": "id_simulador",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contacto_servico": {
+          "name": "contacto_servico",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sys_negocios_operadora_id_ref_operadoras_id_fk": {
+          "name": "sys_negocios_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "sys_negocios",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_negocios_empresa_id_org_empresas_id_fk": {
+          "name": "sys_negocios_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_negocios",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_negocios_deal": {
+          "name": "uq_negocios_deal",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id_negocio",
+            "empresa_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sys_objetivos_trimestrais_vodafone": {
+      "name": "sys_objetivos_trimestrais_vodafone",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "sys_objetivos_trimestrais_vodafone_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "ano": {
+          "name": "ano",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "trimestre": {
+          "name": "trimestre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_objetivo": {
+          "name": "id_objetivo",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor_objetivo": {
+          "name": "valor_objetivo",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor_realizado": {
+          "name": "valor_realizado",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atingido": {
+          "name": "atingido",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "generated": {
+            "as": "CASE WHEN valor_realizado / NULLIF(valor_objetivo, 0) >= 0.90 THEN 1 ELSE 0 END",
+            "type": "stored"
+          }
+        },
+        "data_criacao": {
+          "name": "data_criacao",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "data_fecho": {
+          "name": "data_fecho",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pct_atingimento": {
+          "name": "pct_atingimento",
+          "type": "numeric(10, 4)",
+          "primaryKey": false,
+          "notNull": false,
+          "generated": {
+            "as": "ROUND(valor_realizado / NULLIF(valor_objetivo, 0), 4)",
+            "type": "stored"
+          }
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor_proposto": {
+          "name": "valor_proposto",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "posicionamento": {
+          "name": "posicionamento",
+          "type": "numeric(10, 4)",
+          "primaryKey": false,
+          "notNull": false,
+          "generated": {
+            "as": "ROUND(CASE WHEN valor_proposto IS NULL OR valor_proposto = 0 THEN 1.0 WHEN valor_objetivo / valor_proposto > 1.0 THEN 1.0 ELSE valor_objetivo / valor_proposto END, 4)",
+            "type": "stored"
+          }
+        }
+      },
+      "indexes": {
+        "IX_objetivos_trimestrais_empresa": {
+          "name": "IX_objetivos_trimestrais_empresa",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ano",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "trimestre",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_objetivos_trimestrais_vodafone_id_objetivo_ref_objetivos_id_fk": {
+          "name": "sys_objetivos_trimestrais_vodafone_id_objetivo_ref_objetivos_id_fk",
+          "tableFrom": "sys_objetivos_trimestrais_vodafone",
+          "tableTo": "ref_objetivos",
+          "columnsFrom": [
+            "id_objetivo"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_objetivos_trimestrais_vodafone_empresa_id_org_empresas_id_fk": {
+          "name": "sys_objetivos_trimestrais_vodafone_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_objetivos_trimestrais_vodafone",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "UQ_sys_objetivos": {
+          "name": "UQ_sys_objetivos",
+          "nullsNotDistinct": false,
+          "columns": [
+            "ano",
+            "trimestre",
+            "id_objetivo"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sys_patamar_atingido": {
+      "name": "sys_patamar_atingido",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aspnet_user_id": {
+          "name": "aspnet_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operadora_id": {
+          "name": "operadora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "periodo_inicio": {
+          "name": "periodo_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "periodo_fim": {
+          "name": "periodo_fim",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "percentagem_comercial": {
+          "name": "percentagem_comercial",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_patamar": {
+          "name": "id_patamar",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bruto_acumulado": {
+          "name": "bruto_acumulado",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fechado_em": {
+          "name": "fechado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "ix_patamar_atingido_comercial": {
+          "name": "ix_patamar_atingido_comercial",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "aspnet_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "operadora_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "periodo_inicio",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_patamar_atingido_empresa_id_org_empresas_id_fk": {
+          "name": "sys_patamar_atingido_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_patamar_atingido",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_patamar_atingido_aspnet_user_id_AspNetUsers_Id_fk": {
+          "name": "sys_patamar_atingido_aspnet_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "sys_patamar_atingido",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "aspnet_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_patamar_atingido_operadora_id_ref_operadoras_id_fk": {
+          "name": "sys_patamar_atingido_operadora_id_ref_operadoras_id_fk",
+          "tableFrom": "sys_patamar_atingido",
+          "tableTo": "ref_operadoras",
+          "columnsFrom": [
+            "operadora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_patamar_atingido_id_patamar_cfg_patamar_escalao_id_fk": {
+          "name": "sys_patamar_atingido_id_patamar_cfg_patamar_escalao_id_fk",
+          "tableFrom": "sys_patamar_atingido",
+          "tableTo": "cfg_patamar_escalao",
+          "columnsFrom": [
+            "id_patamar"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "uq_patamar_atingido": {
+          "name": "uq_patamar_atingido",
+          "nullsNotDistinct": false,
+          "columns": [
+            "empresa_id",
+            "aspnet_user_id",
+            "operadora_id",
+            "periodo_inicio"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "ck_patamar_atingido_pct": {
+          "name": "ck_patamar_atingido_pct",
+          "value": "\"sys_patamar_atingido\".\"percentagem_comercial\" BETWEEN 0 AND 100"
+        },
+        "ck_patamar_atingido_periodo": {
+          "name": "ck_patamar_atingido_periodo",
+          "value": "\"sys_patamar_atingido\".\"periodo_fim\" >= \"sys_patamar_atingido\".\"periodo_inicio\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sys_pipedrive_sync_log": {
+      "name": "sys_pipedrive_sync_log",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "byDefault",
+            "name": "sys_pipedrive_sync_log_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "empresa_id": {
+          "name": "empresa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "iniciado_por_user_id": {
+          "name": "iniciado_por_user_id",
+          "type": "varchar(450)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "versao_alvo_id": {
+          "name": "versao_alvo_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iniciado_em": {
+          "name": "iniciado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "terminado_em": {
+          "name": "terminado_em",
+          "type": "timestamp (6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_previsto": {
+          "name": "total_previsto",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criados": {
+          "name": "criados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizados": {
+          "name": "atualizados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "falhados": {
+          "name": "falhados",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "erros_json": {
+          "name": "erros_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duracao_ms": {
+          "name": "duracao_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "ix_pd_sync_empresa_iniciado": {
+          "name": "ix_pd_sync_empresa_iniciado",
+          "columns": [
+            {
+              "expression": "empresa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "iniciado_em",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sys_pipedrive_sync_log_empresa_id_org_empresas_id_fk": {
+          "name": "sys_pipedrive_sync_log_empresa_id_org_empresas_id_fk",
+          "tableFrom": "sys_pipedrive_sync_log",
+          "tableTo": "org_empresas",
+          "columnsFrom": [
+            "empresa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_pipedrive_sync_log_iniciado_por_user_id_AspNetUsers_Id_fk": {
+          "name": "sys_pipedrive_sync_log_iniciado_por_user_id_AspNetUsers_Id_fk",
+          "tableFrom": "sys_pipedrive_sync_log",
+          "tableTo": "AspNetUsers",
+          "columnsFrom": [
+            "iniciado_por_user_id"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sys_pipedrive_sync_log_versao_alvo_id_catalog_versao_id_fk": {
+          "name": "sys_pipedrive_sync_log_versao_alvo_id_catalog_versao_id_fk",
+          "tableFrom": "sys_pipedrive_sync_log",
+          "tableTo": "catalog_versao",
+          "columnsFrom": [
+            "versao_alvo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
