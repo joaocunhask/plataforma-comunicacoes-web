@@ -46,8 +46,12 @@ tem de estar em minúsculas (o Better Auth procura assim): **o ETL tem de o gara
 TOTP sozinho abrir a conta.
 
 Variáveis: `BETTER_AUTH_SECRET` (aleatório, ≥ 32 bytes) e `BETTER_AUTH_URL` (o URL público).
-**Na Vercel têm de existir antes de o login funcionar** (sem o segredo o build passa, mas
-o Better Auth recusa-se a arrancar em produção).
+Sem o segredo o build passa, mas o Better Auth recusa-se a arrancar em produção. Na Vercel
+estão configuradas desde 2026-10-12: o segredo em Production e Preview (tipo Secret), o URL
+só em Production (nos previews o Better Auth deduz o URL do pedido).
+
+**Vercel:** o projeto (equipa INUBIA) está protegido por Vercel Authentication — só membros
+da equipa chegam à app. Funções em `fra1`, junto à Neon.
 
 ## Compatibilidade com o Identity (`src/lib/identity/`)
 
