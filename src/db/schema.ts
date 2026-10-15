@@ -638,6 +638,25 @@ export const refObjetivos = pgTable(
   (t) => [index("IX_objetivos_empresa").on(t.empresaId)],
 );
 
+// Exceções ao funil (db/changes/2026-10-08_funil_excecoes.sql): globais, geridas pela Brasfone.
+// "Os produtos com <criterio> = <valor> também contam para <atingimento_linha>".
+export const refFunilExcecoes = pgTable(
+  "ref_funil_excecoes",
+  {
+    id: id(),
+    criterio: varchar("criterio", { length: 10 }).notNull(),
+    valor: varchar("valor", { length: 255 }).notNull(),
+    idTipoReceita: integer("id_tipo_receita").references(() => refTipoReceitas.id), // NULL = os dois tipos
+    atingimentoLinha: varchar("atingimento_linha", { length: 40 }).notNull(),
+    notas: varchar("notas", { length: 500 }),
+    ativo: boolean("ativo").notNull().default(true),
+    criadoEm: ts2("criado_em").notNull().defaultNow(),
+    criadoPorUserId: varchar("criado_por_user_id", { length: 450 }),
+    atualizadoEm: ts2("atualizado_em"),
+  },
+  (t) => [check("ck_ref_funil_excecoes_criterio", sql`${t.criterio} IN ('PPID', 'LINHA', 'AREA', 'SUBAREA')`)],
+);
+
 export const refPlanoComissionalVodafone = pgTable(
   "ref_plano_comissional_vodafone",
   {

@@ -13,8 +13,8 @@ Reescrita da PlataformaComunicacoes (.NET/Blazor/SQL Server na Azure) em
 - Vitest — os cálculos têm de bater ao cêntimo com o sistema atual
 
 ## Prova de conceito (critérios de saída)
-1. **ETL** SQL Server → Postgres com checksums por tabela (`scripts/etl/`) — por fazer
-   (precisa de uma ligação só de leitura a uma **cópia** da BD de produção)
+1. **ETL** SQL Server → Postgres com checksums por tabela (`scripts/etl/`) — ✅ feito e
+   verificado contra a BD de dev do .NET; falta correr contra uma **cópia** da BD de produção
 2. **Motor de cálculo** em `src/lib/calculo/`, a reproduzir ao cêntimo o motor C# — ✅ feito
 3. **Login** com os hashes ASP.NET Identity e o 2FA migrados, sem reset de passwords —
    ✅ feito (`src/lib/identity/` + Better Auth em `src/lib/auth/`), verificado de ponta a ponta
@@ -39,7 +39,7 @@ a sessão por `src/lib/auth/sessao.ts` (`exigirSessao`, `exigirEmpresaAtiva`).
 **Modelo:** o utilizador do Better Auth é o próprio `AspNetUsers` (ids e chaves estrangeiras
 intactos; o ETL continua 1:1). Tabelas novas: `auth_sessoes` (com `empresa_ativa_id`),
 `auth_contas` (o hash da password vive aqui, em `password`) e `auth_verificacoes`. O email
-tem de estar em minúsculas (o Better Auth procura assim): **o ETL tem de o garantir**.
+tem de estar em minúsculas (o Better Auth procura assim): o ETL converte-o.
 
 **Diferença deliberada face ao .NET:** o código 2FA só é aceite depois da password. A API
 .NET aceita `/auth/totp/verify` com email + código, sem password — um atalho que deixa o
@@ -77,6 +77,34 @@ hashes malformados, surrogates soltos, chave só com espaços, códigos com espa
   corte: fazê-lo sem convites pendentes, ou reenviá-los.
 - As chaves do autenticador estão em claro (`ProtectPersonalData` desligado), por isso
   migram tal e qual.
+
+## ETL (`scripts/etl/`)
+
+Copia o SQL Server para o Postgres **1:1** (mesmos nomes, mesmos ids), numa só transação:
+lê a estrutura dos dois lados e recusa se não baterem (tabela ou coluna em falta, coluna
+calculada só de um lado), copia pela ordem das chaves estrangeiras, volta a ler o que gravou
+e compara com a origem tabela a tabela (contagem + SHA-256 das linhas na forma canónica).
+Uma tabela que não bata → ROLLBACK, nada fica gravado.
+
+- **Origem** (`MSSQL_CONNECTION_STRING`): uma cópia da BD de produção; o ETL só faz SELECT.
+  Decimais, datas e uuids são convertidos para texto no próprio SQL Server
+  (`canonico.ts`): o driver `mssql` passava-os por float e por `Date` com fuso.
+- **Destino** (`DATABASE_URL`): com as migrações aplicadas e **vazio**. Se não for
+  localhost, exige `--confirmar`.
+- **Além da cópia:** `AspNetUsers.Email` passa a minúsculas; o `PasswordHash` passa para
+  `auth_contas` (onde o login o lê) e fica NULL no `AspNetUsers`; as sequências identity
+  avançam para o maior id.
+- **Fica de fora:** `__EFMigrationsHistory` e as tabelas da branch `feat/catalogo-vigencias`
+  do .NET (`ref_campanhas_vodafone`, `ref_produto_classe_vigencia`), que ainda não estão em
+  produção. O relatório mostra quantas linhas têm.
+- **Precisão:** `datetime2` tem 7 casas e o Postgres 6; o 7.º dígito (100 ns) arredonda-se.
+
+```bash
+npm run db:migrate
+npm run etl -- --simular       # tudo, menos o COMMIT: só o relatório
+npm run etl                    # destino local
+npm run etl -- --confirmar     # destino remoto (Neon)
+```
 
 ## Motor de cálculo (`src/lib/calculo/`)
 

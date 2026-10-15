@@ -16,7 +16,8 @@
     "oraculo:gerar": "dotnet run --project ferramentas/oraculo-net -- tests/oraculo",
     "dev:utilizadores-teste": "tsx --env-file=.env.local scripts/dev/utilizadores-teste.mts",
     "dev:codigo-2fa": "tsx --env-file=.env.local scripts/dev/codigo-2fa.mts",
-    "dev:verificar-login": "tsx --env-file=.env.local scripts/dev/verificar-login.mts"
+    "dev:verificar-login": "tsx --env-file=.env.local scripts/dev/verificar-login.mts",
+    "etl": "tsx --env-file=.env.local scripts/etl/migrar.mts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
@@ -32,6 +33,7 @@
     "@tailwindcss/turbopack": "^4",
     "@types/mssql": "^12.3.0",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^18.0.7",
@@ -39,6 +41,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "mssql": "^12.7.4",
+    "pg": "^8.23.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",
