@@ -1,0 +1,633 @@
+/* Estilos do modal do Pipedrive, copiados do .NET (UpfrontModal.razor.css + PipedriveLayout.razor.css).
+   Globais, mas todas as classes têm o prefixo pd- (ou pipedrive-modal-root). */
+/* Estilos scoped ao modal Pipedrive. Design sóbrio com identidade Brasfone:
+   preto para texto/superfícies escuras, vermelho subtil como acento primário. */
+
+.pd-block {
+    --bf-red: #d0021b;
+    --bf-red-dark: #a80116;
+    --bf-black: #1a1a1a;
+    --pd-border: #e5e7eb;
+    --pd-border-strong: #d1d5db;
+    --pd-muted: #6b7280;
+    --pd-muted-dark: #4b5563;
+    --pd-bg-soft: #f8f9fb;
+    --pd-surface: #ffffff;
+
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--pd-surface);
+    border: 1px solid var(--pd-border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.pd-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: var(--bf-black);
+    letter-spacing: -0.01em;
+}
+
+.pd-sub {
+    font-size: 14px;
+    color: var(--pd-muted);
+    margin: 0 0 20px;
+    line-height: 1.5;
+}
+
+.pd-sub strong { color: var(--bf-black); font-weight: 600; }
+
+/* ── Textarea ────────────────────────────────────────────────────────── */
+.pd-textarea {
+    width: 100%;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 14px 16px;
+    border: 1px solid var(--pd-border-strong);
+    border-radius: 8px;
+    resize: vertical;
+    background: var(--pd-bg-soft);
+    color: var(--bf-black);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    box-sizing: border-box;
+}
+.pd-textarea:focus {
+    outline: none;
+    border-color: var(--bf-red);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(208, 2, 27, 0.12);
+}
+.pd-textarea::placeholder { color: #9ca3af; }
+
+/* ── Actions row ─────────────────────────────────────────────────────── */
+.pd-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--pd-border);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────── */
+.pd-btn {
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.05s;
+    font-family: inherit;
+    line-height: 1.2;
+}
+.pd-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.pd-btn:not(:disabled):active { transform: translateY(1px); }
+
+.pd-btn-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.pd-btn-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: pd-spin 0.7s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.pd-btn-secondary .pd-btn-spinner {
+    border-color: rgba(26, 26, 26, 0.2);
+    border-top-color: var(--bf-black);
+}
+
+.pd-btn-primary {
+    background: var(--bf-red);
+    color: white;
+    box-shadow: 0 1px 2px rgba(208, 2, 27, 0.25);
+}
+.pd-btn-primary:not(:disabled):hover {
+    background: var(--bf-red-dark);
+    box-shadow: 0 2px 6px rgba(208, 2, 27, 0.35);
+}
+.pd-btn-primary:not(:disabled):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(208, 2, 27, 0.25);
+}
+
+.pd-btn-secondary {
+    background: white;
+    color: var(--bf-black);
+    border-color: var(--pd-border-strong);
+}
+.pd-btn-secondary:not(:disabled):hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+/* ── Error banner ────────────────────────────────────────────────────── */
+.pd-error {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-left: 3px solid var(--bf-red);
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ── Cards de linhas ─────────────────────────────────────────────────── */
+.pd-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 4px;
+}
+
+.pd-card {
+    border: 1px solid var(--pd-border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    background: var(--pd-surface);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.pd-card:hover { box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06); }
+.pd-card-warn {
+    border-color: #fbbf24;
+    background: #fffdf5;
+}
+
+.pd-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f3f4f6;
+}
+.pd-card-title {
+    font-weight: 600;
+    color: var(--bf-black);
+    font-size: 15px;
+}
+/* Nome do catálogo, quando difere do que veio no texto do simulador. */
+.pd-card-canonico {
+    font-weight: 400;
+    color: var(--pd-muted);
+    margin-left: 6px;
+}
+/* Como a app resolveu o produto (PPID lido / identificado pelo nome / escolhido). */
+.pd-badge-origem {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+.pd-card-remove {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s;
+}
+.pd-card-remove:hover {
+    background: #fef2f2;
+    color: var(--bf-red);
+}
+
+.pd-card-warn-note {
+    font-size: 12px;
+    color: #92400e;
+    background: #fef3c7;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.pd-card-warn-note code {
+    background: white;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+    border: 1px solid #fde68a;
+}
+/* Acção inline dentro do aviso (ex: "Escolher produto"). */
+.pd-link-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-left: 4px;
+    color: #92400e;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.pd-link-btn:hover { color: #713f12; }
+
+/* Lista de produtos candidatos numa linha ambígua. */
+.pd-candidatos {
+    margin-top: 8px;
+    background: var(--pd-surface);
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* ── Linhas não comissionáveis ────────────────────────────────────────── */
+.pd-ignoradas {
+    margin: 4px 0 16px;
+    font-size: 12px;
+    color: var(--pd-muted);
+    border: 1px solid var(--pd-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+.pd-ignoradas summary {
+    cursor: pointer;
+    font-weight: 500;
+}
+.pd-ignoradas ul {
+    margin: 8px 0 2px;
+    padding-left: 18px;
+    line-height: 1.6;
+}
+.pd-ign-nome { color: var(--bf-black); }
+.pd-ign-motivo { color: var(--pd-muted); }
+
+/* ── Classificação por funil ──────────────────────────────────────────── */
+
+/* Chip discreto: confirma a linha de atingimento do produto neste negócio. */
+.pd-badge-funil {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+    font-size: 11px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+/* Cartão de um produto que pertence a outro funil: mesmos campos editáveis que
+   os outros (vai ser escrito num negócio a sério), mas visualmente destacado. */
+.pd-card-outro {
+    border-color: #fcd34d;
+    background: #fffdf7;
+}
+.pd-card-destino {
+    margin: -4px 0 10px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 12px;
+}
+.pd-card-destino .pd-link-btn { margin-left: 8px; }
+
+/* Linha de outro funil que o comercial incluiu neste negócio, com motivo. */
+.pd-card-incluida {
+    border-color: #fdba74;
+    background: #fffaf5;
+}
+.pd-card-incluida-nota {
+    margin: -4px 0 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #ffedd5;
+    color: #9a3412;
+    font-size: 12px;
+    line-height: 1.45;
+}
+.pd-card-incluida-nota textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 6px;
+    padding: 6px 8px;
+    border: 1px solid #fdba74;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    background: var(--pd-surface);
+    color: #1F2329;
+}
+.pd-card-incluida-nota textarea.pd-motivo-falta { border-color: #ea580c; }
+.pd-card-incluida-acoes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+.pd-motivo-hint { margin-right: auto; font-weight: 600; }
+.pd-card-incluida-nota .pd-link-btn { color: #9a3412; }
+
+/* Pertence a este funil por uma exceção registada pela Brasfone. */
+.pd-badge-excecao {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    font-size: 11px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+/* Produtos que pertencem a outro funil: informativos, nunca aplicados aqui. */
+.pd-outros-funis {
+    margin: 4px 0 16px;
+    padding: 10px 12px;
+    font-size: 12px;
+    border: 1px solid #fcd34d;
+    border-radius: 8px;
+    background: #fffbeb;
+    color: #92400e;
+}
+.pd-outros-titulo {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.pd-outros-grupo { margin: 6px 0; }
+.pd-outros-destino {
+    font-weight: 500;
+    color: #78350f;
+}
+.pd-outros-grupo ul {
+    margin: 2px 0 2px;
+    padding-left: 22px;
+    line-height: 1.6;
+}
+/* Formulário de criação de negócio-irmão, dentro de cada grupo. */
+.pd-grupo-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 8px 0 4px;
+}
+.pd-grupo-form .pd-field { flex: 1 1 180px; }
+.pd-grupo-form select,
+.pd-grupo-form input {
+    width: 100%;
+    padding: 7px 9px;
+    border: 1px solid var(--pd-border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: #fff;
+    color: var(--bf-black);
+}
+.pd-grupo-ok {
+    margin: 8px 0 4px;
+    color: #047857;
+    font-weight: 500;
+}
+.pd-grupo-erro {
+    margin: 6px 0 2px;
+    color: #b91c1c;
+}
+
+.pd-outros-nota {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #fde68a;
+    color: #92400e;
+}
+
+/* Aviso neutro: a classificação por funil não está disponível (falta configuração
+   ou dados de catálogo). Não é erro — o modal funciona na mesma. */
+.pd-sem-classificacao {
+    margin: 4px 0 14px;
+    padding: 8px 12px;
+    font-size: 12px;
+    border: 1px solid var(--pd-border);
+    border-radius: 8px;
+    background: #f8fafc;
+    color: var(--pd-muted);
+}
+
+/* ID do simulador — obrigatório para aplicar. */
+.pd-simulador { margin-bottom: 14px; }
+.pd-simulador-hint {
+    font-size: 11px;
+    color: var(--pd-muted);
+}
+
+/* ── Form fields ─────────────────────────────────────────────────────── */
+.pd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 14px;
+}
+.pd-field { display: flex; flex-direction: column; gap: 5px; }
+.pd-field-small { grid-column: span 1; }
+.pd-field label {
+    font-size: 11px;
+    color: var(--pd-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.pd-field input {
+    padding: 8px 10px;
+    border: 1px solid var(--pd-border-strong);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--pd-surface);
+    color: var(--bf-black);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.pd-field input:focus {
+    outline: none;
+    border-color: var(--bf-red);
+    box-shadow: 0 0 0 3px rgba(208, 2, 27, 0.12);
+}
+.pd-field input.pd-readonly,
+.pd-field input[readonly] {
+    background: #f9fafb;
+    color: var(--pd-muted-dark);
+    cursor: default;
+}
+.pd-field input.pd-readonly:focus,
+.pd-field input[readonly]:focus {
+    border-color: var(--pd-border-strong);
+    box-shadow: none;
+}
+.pd-field-required label::after {
+    content: " *";
+    color: var(--bf-red);
+    font-weight: 700;
+}
+
+/* ── Números associados (multi-valor colável) ────────────────────────── */
+.pd-field-full { grid-column: 1 / -1; }
+.pd-numeros {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 8px 10px;
+    border: 1px solid var(--pd-border-strong);
+    border-radius: 6px;
+    resize: vertical;
+    background: var(--pd-surface);
+    color: var(--bf-black);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.pd-numeros:focus {
+    outline: none;
+    border-color: var(--bf-red);
+    box-shadow: 0 0 0 3px rgba(208, 2, 27, 0.12);
+}
+.pd-numeros-info {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--pd-muted);
+}
+.pd-numeros-warn { color: #b45309; font-weight: 600; }
+
+/* ── Combobox pesquisável (produto manual) ───────────────────────────── */
+.pd-combo { position: relative; }
+.pd-combo-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    margin-top: 4px;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--pd-surface);
+    border: 1px solid var(--pd-border-strong);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+}
+.pd-combo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    font-family: inherit;
+    border-bottom: 1px solid #f3f4f6;
+}
+.pd-combo-item:last-child { border-bottom: none; }
+.pd-combo-item:hover { background: #fef2f2; }
+.pd-combo-nome { color: var(--bf-black); }
+.pd-combo-ppid {
+    color: var(--pd-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.pd-combo-empty {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--pd-muted);
+}
+
+/* ── Center layouts (spinner, success, auth) ─────────────────────────── */
+.pd-center {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    text-align: center;
+    padding: 40px 20px;
+}
+.pd-spinner {
+    width: 44px;
+    height: 44px;
+    border: 3px solid #f3f4f6;
+    border-top-color: var(--bf-red);
+    border-radius: 50%;
+    animation: pd-spin 0.85s linear infinite;
+}
+@keyframes pd-spin { to { transform: rotate(360deg); } }
+.pd-success {
+    font-size: 40px;
+    color: #059669;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+/* ── Layout (de PipedriveLayout.razor.css) ── */
+.pipedrive-modal-root {
+    min-height: 100vh;
+    background: #f8f9fb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+    color: #1f2937;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+}
+
+.pd-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.pd-header-logo {
+    height: 26px;
+    width: auto;
+    display: block;
+}
+
+.pd-header-divider {
+    width: 1px;
+    height: 22px;
+    background: #e5e7eb;
+}
+
+.pd-header-app {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    letter-spacing: 0.01em;
+}
+
+.pd-main {
+    flex: 1;
+    padding: 24px;
+    max-width: 100%;
+}

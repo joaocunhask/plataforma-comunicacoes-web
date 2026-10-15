@@ -146,6 +146,30 @@ Protection) não se decifram: passam a revogados e cada comercial volta a ligar 
 Hub numa conta da empresa, com o callback `<URL público>/oauth/pipedrive/callback`, e preencher
 `PIPEDRIVE_CLIENT_ID`, `PIPEDRIVE_CLIENT_SECRET`, `PIPEDRIVE_CALLBACK_URL` e `PIPEDRIVE_TOKENS_KEY`.
 
+### O modal (Custom Modal Action) — `src/lib/modal/`, `/pipedrive/upfront-modal`
+O comercial cola o texto do simulador; o Claude transcreve as linhas (`extrator.ts`, structured
+outputs); o resolver decide o que é comissionável e a que produto do catálogo corresponde
+(`resolver.ts`); a classificação diz a que funil pertence cada produto (`funis.ts`,
+`classificacao.ts`); o Aplicar grava o `id_simulador` e acrescenta os produtos ao negócio com as
+subscrições nas observações — o formato que o apuramento do upfront lê.
+
+| Rota | O quê |
+|---|---|
+| `GET /pipedrive/upfront-modal` | o ecrã (iframe do Pipedrive; `?token=` e `?selectedIds=`) |
+| `POST /pipedrive/contract/extract` | texto → linhas resolvidas e classificadas (máx. 8 KB) |
+| `POST /pipedrive/contract/apply` | id_simulador + produtos no negócio + auditoria (`sys_contrato_uploads`) |
+| `POST /pipedrive/contract/criar-negocio` | negócio-irmão noutro funil (recusa duplicados pelo id_simulador) |
+| `GET /pipedrive/catalog`, `POST /pipedrive/session/extend` | seletor manual; JWT de 30 min |
+
+Leituras com o `pipedrive_api_token` da empresa; escritas com o OAuth do comercial (âmbito
+**Deals: full access**). Configuração: `ANTHROPIC_API_KEY` e, opcional, `ANTHROPIC_MODEL`
+(por omissão `claude-haiku-4-5`, o do .NET). Na app do Pipedrive, a extensão *Custom Modal Action*
+nos negócios aponta para `<URL público>/pipedrive/upfront-modal`.
+
+Diferenças deliberadas face ao .NET: a multa vem do Claude como texto (sem float); o contacto do
+negócio-irmão lê também `{value}` (o formato v1 do Pipedrive, que o .NET ignorava); sem rate limit
+no extract (o limite de 8 KB mantém-se).
+
 ## Motor de cálculo (`src/lib/calculo/`)
 
 Port fiel do motor C#, em funções **puras** (sem BD nem Pipedrive): quem chama lê os
