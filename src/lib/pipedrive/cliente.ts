@@ -133,3 +133,21 @@ export interface ApiPipedrive {
 }
 
 export const apiPipedrive: ApiPipedrive = { obterProdutosDoNegocio, obterProduto, obterNegocio };
+
+/** GET /v1/users/me com um access token OAuth: quem autorizou (a identidade autoritativa). */
+export async function utilizadorAtual(accessToken: string): Promise<{ id: number; companyId: number; nome: string | null }> {
+  const doc = await getJson("/v1/users/me", { tipo: "oauth", accessToken }, false);
+  const data = objeto(doc?.data);
+  const id = data && inteiroLongo(data.id);
+  const companyId = data && inteiroLongo(data.company_id);
+  if (!data || id == null || companyId == null) throw new ErroPipedrive("Resposta /users/me sem 'data' válido.");
+  return { id, companyId, nome: typeof data.name === "string" ? data.name : null };
+}
+
+/** GetInt64: os ids de utilizador e de conta do Pipedrive cabem num número seguro. */
+function inteiroLongo(v: unknown): number | null {
+  const t = texto(v);
+  if (t === null || typeof v === "string" || !/^-?\d+$/.test(t)) return null;
+  const n = Number(t);
+  return Number.isSafeInteger(n) ? n : null;
+}

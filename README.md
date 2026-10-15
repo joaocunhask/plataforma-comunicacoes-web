@@ -106,6 +106,46 @@ npm run etl                    # destino local
 npm run etl -- --confirmar     # destino remoto (Neon)
 ```
 
+## Pipedrive (`src/lib/pipedrive/`)
+
+### Webhooks → apuramento do upfront
+Os mesmos dois webhooks da API .NET, nos mesmos paths (no corte só muda o host):
+
+| Rota | Quem chama | Autenticação |
+|---|---|---|
+| `POST /webhooks/pipedrive/upfront` | ação de webhook de uma automação (payload plano) | `webhook_token` da empresa no corpo |
+| `POST /webhooks/pipedrive/native` | webhook nativo em `updated.deal` (Tools → Webhooks) | Basic Auth, password = `webhook_token` |
+
+Só a transição para ganho é processada. O apuramento (`src/lib/apuramento/upfront.ts`, port do
+`UpfrontApuramentoService`) lê a configuração da empresa e o negócio no Pipedrive com o
+`pipedrive_api_token` da empresa, chama o motor e grava cabeçalho, linhas, acerto RECALCULO
+e log numa transação. O JSON do Pipedrive é lido sem floats (`json-exato.ts`).
+
+**Atenção:**
+- O `pipedrive_api_token` é o personal API token de um utilizador do Pipedrive, e os webhooks
+  nativos ficam associados a quem os criou. Se esse utilizador for desativado, deixam de
+  funcionar: usar uma conta que não vá sair.
+- Com a Vercel Authentication ligada, o Pipedrive não chega aos webhooks. É preciso um domínio
+  sem proteção (produção) ou uma exceção para `/webhooks/*`.
+
+### OAuth da app do Pipedrive (o modal)
+O modal (Custom Modal Action) fala com o Pipedrive em nome de cada comercial, com OAuth.
+
+| Rota | O quê |
+|---|---|
+| `GET /pipedrive/oauth/status`, `GET /pipedrive/oauth/start` | autenticadas pelo JWT do modal (HS256 com o `client_secret`) |
+| `GET /oauth/pipedrive/callback` | o redirect do Pipedrive: troca o code, grava os tokens e avisa o modal (`postMessage`) |
+| `POST /pipedrive/oauth/exchange` | a mesma troca, por API (`{ code, state }`) |
+
+A identidade vem sempre do `/users/me` com o token novo. O `state` é assinado, só pode ser usado
+uma vez (fica em `auth_verificacoes`) e tem de ser da mesma conta que autorizou. Os tokens são
+guardados cifrados com AES-256-GCM (`PIPEDRIVE_TOKENS_KEY`). Os tokens que vêm do .NET (Data
+Protection) não se decifram: passam a revogados e cada comercial volta a ligar o Pipedrive uma vez.
+
+**App nova:** a app atual está na conta de um utilizador desativado. Criar uma app no Developer
+Hub numa conta da empresa, com o callback `<URL público>/oauth/pipedrive/callback`, e preencher
+`PIPEDRIVE_CLIENT_ID`, `PIPEDRIVE_CLIENT_SECRET`, `PIPEDRIVE_CALLBACK_URL` e `PIPEDRIVE_TOKENS_KEY`.
+
 ## Motor de cálculo (`src/lib/calculo/`)
 
 Port fiel do motor C#, em funções **puras** (sem BD nem Pipedrive): quem chama lê os
